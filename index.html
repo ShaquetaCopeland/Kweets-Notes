@@ -4,323 +4,816 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Kweet's Icons (Persistent)</title>
+
 <style>
   body {
     font-family: Arial, sans-serif;
     margin: 0; padding: 0;
-    background-color: #fff;
+    background-color: #f7f7f7;
+    background-image: url("data:image/svg+xml,\
+      <svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'>\
+        <text x='10' y='20' font-size='20' fill='%23cccccc'>✏️</text>\
+        <text x='70' y='40' font-size='22' fill='%23d0d0d0'>📓</text>\
+        <text x='20' y='80' font-size='26' fill='%23d6d6d6'>☕</text>\
+        <text x='80' y='95' font-size='22' fill='%23cfcfcf'>⌨️</text>\
+        <text x='40' y='55' font-size='22' fill='%23d3d3d3'>🖱️</text>\
+        <text x='55' y='15' font-size='22' fill='%23d9d9d9'>🖥️</text>\
+      </svg>");
+    background-repeat: repeat;
   }
+
   .title-bar {
     background: linear-gradient(to right, #6a0dad, #32cd32);
     color: white;
     padding: 16px;
     text-align: center;
-    font-size: 1.5em;
+    font-size: 1.6em;
     font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
   }
+
   .main-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: flex-start;
     padding: 20px;
     gap: 20px;
   }
+
   .table-container {
-    flex: 3;
+    flex: 3 1 420px;
     overflow-x: auto;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
   }
-  .search-container {
-    flex: 1;
-    text-align: right;
+
+  .side-panel {
+    flex: 1.5 1 300px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
+
+  .panel {
+    background: white;
+    padding: 12px 14px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+
+  .panel h3 {
+    margin-top: 0;
+    margin-bottom: 8px;
+    font-size: 1.05em;
+  }
+
   .search-container input[type="text"] {
     padding: 8px;
     width: 100%;
-    font-size: 1em;
+    font-size: 0.95em;
+    border-radius: 6px;
+    border: 1px solid #ccc;
   }
+
   table {
     border-collapse: collapse;
     width: 100%;
     min-width: 350px;
   }
+
   th, td {
     text-align: left;
     padding: 8px;
     border: 1px solid #ccc;
     vertical-align: middle;
+    font-size: 0.95em;
   }
+
   thead tr {
     background-color: #f2f2f2;
   }
+
   tr.category-header td {
     font-weight: bold;
-    font-size: 1.1em;
+    font-size: 1.02em;
     background-color: #ddd;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
   }
+
+  .category-left {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex: 1;
+  }
+
+  .category-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .collapse-arrow {
+    font-size: 0.85em;
+    width: 18px;
+    text-align: center;
+  }
+
+  .color-swatch {
+    width: 18px;
+    height: 18px;
+    border-radius: 4px;
+    border: 1px solid #888;
+  }
+
+  tr:hover:not(.category-header) {
+    background-color: #f9f9f9;
+  }
+
   button {
     padding: 4px 8px;
     margin-left: 4px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     cursor: pointer;
+    border-radius: 5px;
+    border: 1px solid #aaa;
+    background: #eee;
   }
-  .form-section {
-    padding: 20px;
-    border-top: 2px solid #ccc;
+
+  button:hover {
+    background: #ddd;
   }
-  .form-section input, .form-section select {
-    padding: 8px;
-    margin: 5px;
-    font-size: 1em;
+
+  .form-section input,
+  .form-section select,
+  .panel input,
+  .panel select,
+  .panel textarea {
+    padding: 6px;
+    margin: 4px 0;
+    font-size: 0.9em;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .inline-row {
+    display: flex;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .inline-row > * {
+    flex: 1;
+  }
+
+  .drag-handle {
+    cursor: grab;
+    margin-right: 8px;
+  }
+
+  .small-text {
+    font-size: 0.8em;
+    color: #666;
+  }
+
+  .ai-output {
+    margin-top: 4px;
+    font-size: 0.9em;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+    background: #fafafa;
+  }
+
+  .ai-output-label {
+    font-size: 0.85em;
+    font-weight: bold;
+    margin-bottom: 2px;
+  }
+
+  .ai-actions {
+    margin-top: 6px;
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .ai-actions button {
+    margin-left: 0;
+  }
+
+  .file-input {
+    font-size: 0.8em;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 10px 0;
   }
 </style>
+
 <script>
-  const STORAGE_KEY = "kweetMacros";
+const STORAGE_KEY = "kweetMacros_v2";
 
-  // Default macros data
-  const defaultData = [
-    {
-      category: "🔵 FTR (First Time Response)",
-      macros: [
-        "🆕 RTS - Address Confirmation",
-        "🙋‍♀️ Consignment Questions –",
-        "📦 Item Status –",
-        "💬 General Inquiry –",
-        "📦 RTC Requested – ",
-        "📦 RTC Complete – "
-      ],
-      bgColor: "#e0f0ff"
-    },
-    {
-      category: "🟡 Follow-Up / Ongoing",
-      macros: [
-        "🔁 Processing Delayed – ",
-        "🔎 Price Increase – Not Sold",
-        "🧵 Consignor Concerns – ",
-        "📤 Missing Client Info – Unable to Locate"
-      ],
-      bgColor: "#fff8dc"
-    },
-    {
-      category: "🟢 Resolutions / Closure",
-      macros: [
-        "✅ Request Completed",
-        "❌ Request Completed – Declined",
-        "📬 Return Request Accepted",
-        "📭 Item Returned to Consignor"
-        "💲 Site Credit Inquiry – ",
-      ],
-      bgColor: "#e0ffe0"
-    },
-    {
-      category: "🔴 Escalations / Special Handling",
-      macros: [
-        "✅ Check Reissue Request",
-        "❗ Item Concern – Delayed",
-        "🧨 Price Adjustment – "Accepted/Declined"
-      ],
-      bgColor: "#ffe0e0"
-    },
-    {
-      category: "🟣 Internal Use / Luxury Manager Support",
-      macros: [
-        "📎 Missing Client Info – Unable to Locate",
-        "📘 Info Request – Need SKU or CID"
-      ],
-      bgColor: "#f3e0ff"
-    },
-    {
-      category: "🟠 Pricing & Discounts",
-      macros: [
-        "🏷️ Discount Removal Requested",
-        "🔖 Discount Addition Requested",
-        "💲 Price Increase – Not Sold",
-        "📉 Discount Without Approval – Apology & RTC Option"
-      ],
-      bgColor: "#ffe7cc"
-    }
-  ];
+const defaultData = [
+  {
+    category: "🔵 FTR (First Time Response)",
+    macros: [
+      "🆕 RTS - Address Confirmation –",
+      "🙋‍♀️ Consignment Questions –",
+      "📦 Item Status –",
+      "💬 General Inquiry –",
+      "📦 RTC Requested –",
+      "📦 RTC Complete –"
+    ],
+    bgColor: "#e0f0ff",
+    collapsed: false
+  },
+  {
+    category: "🟡 Follow-Up / Ongoing",
+    macros: [
+      "🔁 Processing Delayed –",
+      "🔎 Price Increase – Not Sold –",
+      "🧵 Consignor Concerns –",
+      "📤 Missing Client Info – Unable to Locate –"
+    ],
+    bgColor: "#fff8dc",
+    collapsed: false
+  },
+  {
+    category: "🟢 Resolutions / Closure",
+    macros: [
+      "✅ Request Completed –",
+      "❌ Request Completed – Declined –",
+      "📬 Return Request Accepted –",
+      "📭 Item Returned to Consignor –",
+      "💲 Site Credit Inquiry –"
+    ],
+    bgColor: "#e0ffe0",
+    collapsed: false
+  },
+  {
+    category: "🔴 Escalations / Special Handling",
+    macros: [
+      "✅ Check Reissue Request –",
+      "❗ Item Concern – Delayed –",
+      "🧨 Price Adjustment – Accepted/Declined –"
+    ],
+    bgColor: "#ffe0e0",
+    collapsed: false
+  },
+  {
+    category: "🟣 Internal Use / Luxury Manager Support",
+    macros: [
+      "📎 Missing Client Info – Unable to Locate –",
+      "📘 Info Request – Need SKU or CID –"
+    ],
+    bgColor: "#f3e0ff",
+    collapsed: false
+  },
+  {
+    category: "🟠 Pricing & Discounts",
+    macros: [
+      "🏷️ Discount Removal Requested –",
+      "🔖 Discount Addition Requested –",
+      "💲 Price Increase – Not Sold –",
+      "📉 Discount Without Approval – Apology & RTC Option –"
+    ],
+    bgColor: "#ffe7cc",
+    collapsed: false
+  }
+];
 
-  // Load macros from localStorage or use default
-  function loadData() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-      try {
-        return JSON.parse(saved);
-      } catch {
-        localStorage.removeItem(STORAGE_KEY);
-      }
+function loadData() {
+  const saved = localStorage.getItem(STORAGE_KEY);
+  let data;
+  if (saved) {
+    try {
+      data = JSON.parse(saved);
+    } catch {
+      localStorage.removeItem(STORAGE_KEY);
+      data = defaultData;
     }
-    return defaultData;
+  } else {
+    data = defaultData;
   }
 
-  // Save macros to localStorage
-  function saveData(data) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  // Ensure new fields exist
+  data.forEach(section => {
+    if (!section.bgColor) section.bgColor = "#ddd";
+    if (typeof section.collapsed !== "boolean") section.collapsed = false;
+  });
+
+  return data;
+}
+
+function saveData(data) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+}
+
+function getData() {
+  return loadData();
+}
+
+function renderCategorySelect(data) {
+  const select = document.getElementById("aiCategorySelect");
+  const addSelect = document.getElementById("newCategorySelect");
+  if (!select && !addSelect) return;
+
+  const optionsHtml = data
+    .map(s => `<option value="${encodeURIComponent(s.category)}">${s.category}</option>`)
+    .join("");
+
+  if (select) {
+    select.innerHTML = optionsHtml;
   }
+  if (addSelect) {
+    addSelect.innerHTML = `<option value="">New category...</option>` + optionsHtml;
+  }
+}
 
-  // Render table rows from data
-  function renderTable(data) {
-    const tbody = document.querySelector("tbody");
-    tbody.innerHTML = "";
-    data.forEach(section => {
-      // Category header row
-      const catRow = document.createElement("tr");
-      catRow.className = "category-header";
-      catRow.style.backgroundColor = section.bgColor || "#ddd";
-      const catTd = document.createElement("td");
-      catTd.colSpan = 1;
-      catTd.textContent = section.category;
-      catRow.appendChild(catTd);
-      tbody.appendChild(catRow);
+function renderTable(data) {
+  const tbody = document.querySelector("tbody");
+  tbody.innerHTML = "";
 
-      // Macro rows
+  data.forEach(section => {
+    const catRow = document.createElement("tr");
+    catRow.className = "category-header";
+    catRow.style.backgroundColor = section.bgColor || "#ddd";
+
+    const catTd = document.createElement("td");
+
+    const leftDiv = document.createElement("div");
+    leftDiv.className = "category-left";
+
+    const arrowSpan = document.createElement("span");
+    arrowSpan.className = "collapse-arrow";
+    arrowSpan.textContent = section.collapsed ? "▶" : "▼";
+    leftDiv.appendChild(arrowSpan);
+
+    const swatch = document.createElement("div");
+    swatch.className = "color-swatch";
+    swatch.style.backgroundColor = section.bgColor || "#ddd";
+    leftDiv.appendChild(swatch);
+
+    const labelSpan = document.createElement("span");
+    labelSpan.textContent = section.category;
+    leftDiv.appendChild(labelSpan);
+
+    const controlsDiv = document.createElement("div");
+    controlsDiv.className = "category-controls";
+
+    const colorBtn = document.createElement("button");
+    colorBtn.textContent = "Color";
+    colorBtn.onclick = (e) => {
+      e.stopPropagation();
+      openColorPicker(section.category);
+    };
+    controlsDiv.appendChild(colorBtn);
+
+    catTd.appendChild(leftDiv);
+    catTd.appendChild(controlsDiv);
+    catRow.appendChild(catTd);
+
+    catRow.addEventListener("click", () => toggleCategoryCollapse(section.category));
+
+    tbody.appendChild(catRow);
+
+    if (!section.collapsed) {
       section.macros.forEach(macro => {
         const row = document.createElement("tr");
+        row.draggable = true;
+
+        row.addEventListener("dragstart", e => {
+          e.dataTransfer.setData("text/plain", JSON.stringify({
+            macro,
+            category: section.category
+          }));
+          row.style.opacity = "0.4";
+        });
+
+        row.addEventListener("dragend", () => {
+          row.style.opacity = "1";
+        });
+
+        row.addEventListener("dragover", e => e.preventDefault());
+
+        row.addEventListener("drop", e => {
+          e.preventDefault();
+          const dataTransfer = e.dataTransfer.getData("text/plain");
+          if (!dataTransfer) return;
+          const obj = JSON.parse(dataTransfer);
+          const data = getData();
+          const fromSection = data.find(s => s.category === obj.category);
+          const toSection = data.find(s => s.category === section.category);
+          if (!fromSection || !toSection) return;
+
+          const fromIdx = fromSection.macros.indexOf(obj.macro);
+          const toIdx = toSection.macros.indexOf(macro);
+
+          if (fromIdx === -1 || toIdx === -1) return;
+
+          fromSection.macros.splice(fromIdx, 1);
+          toSection.macros.splice(toIdx, 0, obj.macro);
+
+          saveData(data);
+          renderTable(data);
+          filterTable();
+          renderCategorySelect(data);
+        });
+
         const td = document.createElement("td");
-        td.textContent = macro + " ";
-        // Copy button
+        td.innerHTML = `<span class="drag-handle">☰</span> ${macro} `;
+
         const copyBtn = document.createElement("button");
         copyBtn.textContent = "Copy";
-        copyBtn.onclick = () => {
-          navigator.clipboard.writeText(macro).then(() => {
-            alert(`Copied: ${macro}`);
-          });
-        };
-        td.appendChild(copyBtn);
+        copyBtn.onclick = () => navigator.clipboard.writeText(macro);
 
-        // Edit button
         const editBtn = document.createElement("button");
         editBtn.textContent = "Edit";
         editBtn.onclick = () => editMacro(macro, section.category);
+
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "Delete";
+        delBtn.onclick = () => deleteMacro(macro, section.category);
+
+        td.appendChild(copyBtn);
         td.appendChild(editBtn);
+        td.appendChild(delBtn);
 
         row.appendChild(td);
         tbody.appendChild(row);
       });
-    });
-  }
-
-  // Edit a macro label
-  function editMacro(oldMacro, category) {
-    const newLabel = prompt("Edit macro text:", oldMacro);
-    if (!newLabel || newLabel.trim() === "") return;
-
-    const data = loadData();
-    const section = data.find(s => s.category === category);
-    if (!section) return;
-
-    const index = section.macros.indexOf(oldMacro);
-    if (index > -1) {
-      section.macros[index] = newLabel.trim();
-      saveData(data);
-      renderTable(data);
-      filterTable();
     }
-  }
+  });
 
-  // Add new macro to category (or create new category)
-  function addMacro() {
-    const cat = document.getElementById("newCategory").value.trim();
-    const icon = document.getElementById("newIcon").value.trim();
-    const label = document.getElementById("newLabel").value.trim();
+  renderCategorySelect(data);
+}
+
+function toggleCategoryCollapse(category) {
+  const data = getData();
+  const section = data.find(s => s.category === category);
+  if (!section) return;
+  section.collapsed = !section.collapsed;
+  saveData(data);
+  renderTable(data);
+  filterTable();
+}
+
+function openColorPicker(category) {
+  const colorInput = document.createElement("input");
+  colorInput.type = "color";
+  colorInput.style.position = "fixed";
+  colorInput.style.left = "-9999px";
+  document.body.appendChild(colorInput);
+
+  const data = getData();
+  const section = data.find(s => s.category === category);
+  colorInput.value = section?.bgColor || "#dddddd";
+
+  colorInput.addEventListener("input", () => {
+    if (!section) return;
+    section.bgColor = colorInput.value;
+    saveData(data);
+    renderTable(data);
+    filterTable();
+  });
+
+  colorInput.addEventListener("change", () => {
+    document.body.removeChild(colorInput);
+  });
+
+  colorInput.click();
+}
+
+function editMacro(oldMacro, category) {
+  const newLabel = prompt("Edit macro text:", oldMacro);
+  if (!newLabel || newLabel.trim() === "") return;
+
+  const data = getData();
+  const section = data.find(s => s.category === category);
+  if (!section) return;
+
+  const index = section.macros.indexOf(oldMacro);
+  if (index > -1) {
+    section.macros[index] = newLabel.trim();
+    saveData(data);
+    renderTable(data);
+    filterTable();
+  }
+}
+
+function deleteMacro(macro, category) {
+  const data = getData();
+  const section = data.find(s => s.category === category);
+  if (!section) return;
+
+  section.macros = section.macros.filter(m => m !== macro);
+  saveData(data);
+  renderTable(data);
+  filterTable();
+}
+
+function addMacro() {
+  const catInput = document.getElementById("newCategory");
+  const iconSelect = document.getElementById("newIcon");
+  const labelInput = document.getElementById("newLabel");
+  const catSelect = document.getElementById("newCategorySelect");
+
+  const label = labelInput.value.trim();
+  const icon = iconSelect.value.trim();
+
+  let data = getData();
+  let section;
+
+  if (catSelect.value) {
+    const categoryName = decodeURIComponent(catSelect.value);
+    section = data.find(s => s.category === categoryName);
+  } else {
+    const cat = catInput.value.trim();
     if (!cat || !icon || !label) {
-      alert("Please fill in all fields (category, icon, label).");
+      alert("Please fill in icon, label, and either select a category or type a new one.");
       return;
     }
-
-    let data = loadData();
-    let section = data.find(s => s.category.toLowerCase() === cat.toLowerCase());
+    section = data.find(s => s.category.toLowerCase() === (icon + " " + cat).toLowerCase());
     if (!section) {
       section = {
         category: icon + " " + cat,
         macros: [],
-        bgColor: "#ddd"
+        bgColor: "#ddd",
+        collapsed: false
       };
       data.push(section);
     }
-    section.macros.push(icon + " " + label);
-
-    saveData(data);
-    renderTable(data);
-    filterTable();
-
-    document.getElementById("newCategory").value = "";
-    document.getElementById("newIcon").value = "";
-    document.getElementById("newLabel").value = "";
   }
 
-  // Filter macros and categories based on search input
-  function filterTable() {
-    const filter = document.getElementById("searchInput").value.toLowerCase();
-    const tbody = document.querySelector("tbody");
-    const rows = tbody.querySelectorAll("tr");
-    let currentCategoryRow = null;
-    let categoryHasMatch = false;
+  if (!section) {
+    alert("Please select or create a category.");
+    return;
+  }
 
-    rows.forEach(row => {
-      if (row.classList.contains("category-header")) {
-        if (currentCategoryRow && !categoryHasMatch) {
-          currentCategoryRow.style.display = "none";
-        }
-        currentCategoryRow = row;
-        categoryHasMatch = false;
-        row.style.display = "";
-      } else {
-        const text = row.textContent.toLowerCase();
-        const isMatch = text.includes(filter);
-        row.style.display = isMatch ? "" : "none";
-        if (isMatch) categoryHasMatch = true;
+  if (!icon || !label) {
+    alert("Please choose an icon and enter a label.");
+    return;
+  }
+
+  const macroText = icon + " " + label + (label.endsWith("–") ? "" : " –");
+  section.macros.push(macroText);
+
+  saveData(data);
+  renderTable(data);
+  filterTable();
+  renderCategorySelect(data);
+
+  catInput.value = "";
+  iconSelect.value = "";
+  labelInput.value = "";
+  catSelect.value = "";
+}
+
+function filterTable() {
+  const filter = document.getElementById("searchInput").value.toLowerCase();
+  const rows = document.querySelectorAll("tbody tr");
+
+  let currentCategory = null;
+  let categoryHasMatch = false;
+
+  rows.forEach(row => {
+    if (row.classList.contains("category-header")) {
+      if (currentCategory && !categoryHasMatch) {
+        currentCategory.style.display = "none";
       }
-    });
-
-    if (currentCategoryRow && !categoryHasMatch) {
-      currentCategoryRow.style.display = "none";
+      currentCategory = row;
+      categoryHasMatch = false;
+      row.style.display = "";
+    } else {
+      const match = row.textContent.toLowerCase().includes(filter);
+      row.style.display = match ? "" : "none";
+      if (match) categoryHasMatch = true;
     }
+  });
+
+  if (currentCategory && !categoryHasMatch) {
+    currentCategory.style.display = "none";
+  }
+}
+
+function exportData() {
+  const data = getData();
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "kweet_macros_backup.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+
+function importData(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = e => {
+    try {
+      const data = JSON.parse(e.target.result);
+      saveData(data);
+      renderTable(data);
+      filterTable();
+      renderCategorySelect(data);
+    } catch {
+      alert("Invalid JSON file.");
+    }
+  };
+  reader.readAsText(file);
+}
+
+/* ---------------- AI MACRO GENERATOR ---------------- */
+
+function guessEmoji(description) {
+  const d = description.toLowerCase();
+
+  if (d.match(/return|rtc|rtr|send back|refund/)) return "📬";
+  if (d.match(/address|ship|shipping|delivery/)) return "📦";
+  if (d.match(/delay|late|waiting|hold|pending/)) return "⏳";
+  if (d.match(/price|discount|sale|increase|decrease|cost/)) return "💲";
+  if (d.match(/question|inquiry|ask|info|information/)) return "💬";
+  if (d.match(/consign|consignor|consignment/)) return "🧵";
+  if (d.match(/escalate|issue|problem|concern|complaint|error/)) return "❗";
+  if (d.match(/complete|done|resolved|finished|success/)) return "✅";
+  if (d.match(/internal|note|internal use/)) return "🟣";
+  if (d.match(/follow up|ongoing|update/)) return "🔁";
+  if (d.match(/missing|not found|no info|unable to locate/)) return "📎";
+
+  return "🔹";
+}
+
+function titleCaseLabel(description) {
+  return description
+    .trim()
+    .replace(/[-_]+/g, " ")
+    .replace(/\s+/g, " ")
+    .split(" ")
+    .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(" ");
+}
+
+function generateAIMacro() {
+  const input = document.getElementById("aiDescription");
+  const output = document.getElementById("aiOutputText");
+  const raw = input.value.trim();
+
+  if (!raw) {
+    alert("Describe what you want the macro to be about.");
+    return;
   }
 
-  window.onload = () => {
-    const data = loadData();
-    renderTable(data);
-    document.getElementById("searchInput").addEventListener("input", filterTable);
-  };
+  const emoji = guessEmoji(raw);
+  const label = titleCaseLabel(raw);
+  const macro = `${emoji} ${label} –`;
+
+  output.textContent = macro;
+}
+
+function addAIMacroToCategory() {
+  const output = document.getElementById("aiOutputText").textContent.trim();
+  const catSelect = document.getElementById("aiCategorySelect");
+
+  if (!output) {
+    alert("Generate a macro first.");
+    return;
+  }
+
+  if (!catSelect.value) {
+    alert("Choose a category to add this macro to.");
+    return;
+  }
+
+  const categoryName = decodeURIComponent(catSelect.value);
+  const data = getData();
+  const section = data.find(s => s.category === categoryName);
+  if (!section) {
+    alert("Category not found.");
+    return;
+  }
+
+  section.macros.push(output);
+  saveData(data);
+  renderTable(data);
+  filterTable();
+  renderCategorySelect(data);
+
+  alert("AI-generated macro added.");
+}
+
+window.onload = () => {
+  const data = getData();
+  renderTable(data);
+  filterTable();
+  renderCategorySelect(data);
+  document.getElementById("searchInput").addEventListener("input", filterTable);
+};
 </script>
 </head>
+
 <body>
   <div class="title-bar">Kweet's Icons (Persistent)</div>
+
   <div class="main-container">
     <div class="table-container">
       <table>
         <thead>
           <tr><th>Icon + Macro</th></tr>
         </thead>
-        <tbody>
-          <!-- Rows generated by JS -->
-        </tbody>
+        <tbody></tbody>
       </table>
     </div>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search macros..." />
+
+    <div class="side-panel">
+      <div class="panel search-container">
+        <h3>Search</h3>
+        <input type="text" id="searchInput" placeholder="Search macros..." />
+        <div class="small-text">Filters both categories and macro text.</div>
+      </div>
+
+      <div class="panel form-section">
+        <h3>Add New Macro</h3>
+
+        <div class="small-text">Choose an existing category or type a new one.</div>
+
+        <label class="small-text">Existing category:</label>
+        <select id="newCategorySelect">
+          <!-- Populated by JS -->
+        </select>
+
+        <label class="small-text" style="margin-top:6px;">New category (optional):</label>
+        <input type="text" id="newCategory" placeholder="Category (e.g. RTC)" />
+
+        <div class="inline-row">
+          <select id="newIcon">
+            <option value="">Icon</option>
+            <option value="🔵">🔵</option>
+            <option value="🟡">🟡</option>
+            <option value="🟢">🟢</option>
+            <option value="🔴">🔴</option>
+            <option value="🟣">🟣</option>
+            <option value="🟠">🟠</option>
+            <option value="📦">📦</option>
+            <option value="✅">✅</option>
+            <option value="📬">📬</option>
+            <option value="🏷️">🏷️</option>
+            <option value="💲">💲</option>
+            <option value="❗">❗</option>
+          </select>
+
+          <input type="text" id="newLabel" placeholder="Label (e.g. Return Request)" />
+        </div>
+
+        <button onclick="addMacro()">Add Macro</button>
+      </div>
+
+      <div class="panel">
+        <h3>AI Macro Generator</h3>
+        <textarea id="aiDescription" rows="3" placeholder="Describe what you want (e.g. payout delay, return approved, missing info)..."></textarea>
+        <button onclick="generateAIMacro()">Generate Macro</button>
+
+        <div class="ai-output">
+          <div class="ai-output-label">Generated macro:</div>
+          <div id="aiOutputText"></div>
+        </div>
+
+        <div class="ai-actions">
+          <select id="aiCategorySelect">
+            <!-- Populated by JS -->
+          </select>
+          <button onclick="addAIMacroToCategory()">Add to Category</button>
+        </div>
+
+        <div class="small-text">
+          Style: emoji that matches topic + short label + “–”.
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Backup / Restore</h3>
+        <button onclick="exportData()">Export JSON</button>
+        <input type="file" accept="application/json" onchange="importData(event)" class="file-input" />
+        <div class="small-text">
+          Use this to share macros or restore if browser data is cleared.
+        </div>
+      </div>
     </div>
-  </div>
-  <div class="form-section">
-    <h3>Add New Macro</h3>
-    <input type="text" id="newCategory" placeholder="Category (e.g. RTC)" />
-    <select id="newIcon" aria-label="Icon selector">
-      <option value="">Select Icon</option>
-      <option value="🔵">🔵</option>
-      <option value="🟡">🟡</option>
-      <option value="🟢">🟢</option>
-      <option value="🔴">🔴</option>
-      <option value="🟣">🟣</option>
-      <option value="🟠">🟠</option>
-      <option value="📦">📦</option>
-      <option value="✅">✅</option>
-      <option value="📬">📬</option>
-      <option value="🏷️">🏷️</option>
-    </select>
-    <input type="text" id="newLabel" placeholder="Label (e.g. Return Request)" />
-    <button onclick="addMacro()">Add Macro</button>
   </div>
 </body>
 </html>
-
